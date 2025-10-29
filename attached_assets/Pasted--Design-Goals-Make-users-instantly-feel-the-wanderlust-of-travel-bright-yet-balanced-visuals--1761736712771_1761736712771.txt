@@ -1,0 +1,77 @@
+🧭 Design Goals:
+
+Make users instantly feel the wanderlust of travel — bright yet balanced visuals, immersive layout.
+
+Use a consistent color palette inspired by travel and nature:
+
+Sky Blue #5AC8FA
+
+Coral Orange #FF6B6B
+
+Ocean Green #2EC4B6
+
+Soft Sand Beige #FFE8D6
+
+White for background contrast.
+
+💡 Layout Enhancements:
+
+Hero Section:
+
+Add a large travel-themed banner or subtle looping background video (beach waves, city timelapse, etc.).
+
+Include a short tagline like “Find your next adventure with AI” and a single CTA button (“Get Recommendations”).
+
+Use gradient overlays for text clarity.
+
+Chat/Input Section:
+
+Convert the plain input into a chat bubble-style box or glassmorphism card.
+
+Use rounded corners, a soft shadow, and placeholder text like “Where do you want to go next?”
+
+Add a send icon (✈️ or 🧭) next to the input button.
+
+Recommendation Cards:
+
+Show each travel suggestion as a floating card with:
+
+A high-quality destination image (use Unsplash API or placeholders).
+
+The destination name in bold, and a short subtitle (e.g., “Perfect for beach lovers”).
+
+Budget, best time, and activities in a clean grid or icon layout.
+
+Add hover animations: scale-up and shadow glow effects.
+
+Animate cards appearing using Framer Motion (fade-in or slide-up).
+
+Navbar & Footer:
+
+Keep minimal — just logo + 2–3 links (“Home”, “About”, “Contact”).
+
+Footer with soft gradient background and small icons for social links.
+
+🧠 Typography & Iconography:
+
+Use Google Fonts — Poppins (bold headers) and Quicksand (body).
+
+Use Lucide icons or Heroicons for travel vibes (plane, globe, map-pin, compass).
+
+Add small animated emojis or icons near headings (e.g., 🌴 ✈️ 🗺️).
+
+✨ Micro-Interactions:
+
+Add a subtle loading animation (like a plane flying across the screen) when generating AI responses.
+
+Use smooth scrolling and soft transitions between sections.
+
+Add hover transitions on buttons (color shift + shadow pop).
+
+📱 Responsiveness:
+
+Ensure the layout adjusts gracefully to mobile — stack cards vertically, compress paddings, and maintain text readability.
+
+🚀 Goal:
+
+Make the app feel like a premium AI travel assistant — vibrant, dynamic, and intuitive — while keeping the performance snappy and minimal.
