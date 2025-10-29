@@ -14,6 +14,7 @@ import { Plane, DollarSign, Calendar, Clock, Heart, MapPin, Globe } from "lucide
 interface TravelFormProps {
   onSubmit: (preferences: TravelPreferences) => void;
   isLoading?: boolean;
+  onCurrencyChange?: (currency: string) => void;
 }
 
 export interface TravelPreferences {
@@ -40,14 +41,21 @@ const months = [
 
 const moods = ["Relaxing", "Adventurous", "Cultural", "Romantic"];
 
-export default function TravelForm({ onSubmit, isLoading = false }: TravelFormProps) {
+export default function TravelForm({ onSubmit, isLoading = false, onCurrencyChange }: TravelFormProps) {
   const [budget, setBudget] = useState("");
   const [duration, setDuration] = useState("");
   const [month, setMonth] = useState("");
   const [mood, setMood] = useState("");
   const [userLocation, setUserLocation] = useState("");
-  const [currency, setCurrency] = useState("INR");
+  const [currency, setCurrency] = useState("USD");
   const [country, setCountry] = useState("");
+
+  const handleCurrencyChange = (newCurrency: string) => {
+    setCurrency(newCurrency);
+    if (onCurrencyChange) {
+      onCurrencyChange(newCurrency);
+    }
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -96,7 +104,7 @@ export default function TravelForm({ onSubmit, isLoading = false }: TravelFormPr
               <DollarSign className="w-4 h-4 text-secondary" />
               Currency
             </Label>
-            <Select value={currency} onValueChange={setCurrency} disabled={isLoading}>
+            <Select value={currency} onValueChange={handleCurrencyChange} disabled={isLoading}>
               <SelectTrigger id="currency" className="h-12 rounded-xl border-2 border-primary/20">
                 <SelectValue />
               </SelectTrigger>

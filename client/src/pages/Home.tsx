@@ -23,7 +23,7 @@ export default function Home() {
   const [destinations, setDestinations] = useState<Destination[] | null>(null);
   const [lastPreferences, setLastPreferences] = useState<TravelPreferences | null>(null);
   const [currentMood, setCurrentMood] = useState<MoodTheme>('relax');
-  const [currentCurrency, setCurrentCurrency] = useState<string>("USD");
+  const [preferredCurrency, setPreferredCurrency] = useState<string>("USD");
   const { toast } = useToast();
 
   const generateRecommendations = async (preferences: TravelPreferences) => {
@@ -49,7 +49,7 @@ export default function Home() {
       const data = await response.json();
       setDestinations(data.destinations);
       setLastPreferences(preferences);
-      setCurrentCurrency(preferences.currency || "USD");
+      setPreferredCurrency(preferences.currency || "USD");
     } catch (error: any) {
       console.error("Error fetching recommendations:", error);
       toast({
@@ -86,7 +86,7 @@ export default function Home() {
       mood: ["Relaxing", "Adventurous", "Cultural", "Romantic"][
         Math.floor(Math.random() * 4)
       ] as any,
-      currency: "USD",
+      currency: lastPreferences?.currency || preferredCurrency || "USD",
     };
 
     generateRecommendations(randomPreferences);
@@ -102,7 +102,7 @@ export default function Home() {
 
     // Create preferences based on filter type
     const filterPreferences: Partial<TravelPreferences> = {
-      currency: lastPreferences?.currency || currentCurrency || "INR",
+      currency: lastPreferences?.currency || preferredCurrency || "USD",
     };
 
     switch (filter) {
@@ -150,31 +150,17 @@ export default function Home() {
     <div className={`min-h-screen transition-colors duration-700 ${moodBackgrounds[currentMood]}`}>
       <Navbar />
       
-      <div className="fixed top-20 right-4 z-50">
-        <MoodSwitcher currentMood={currentMood} onMoodChange={handleMoodChange} />
-      </div>
-      
       <div className="container mx-auto px-4 py-8 max-w-7xl">
         <Hero />
         
         <QuickFilters onFilterClick={handleFilterClick} />
         
         <div id="travel-form">
-          <TravelForm onSubmit={handleFormSubmit} isLoading={isLoading} />
-        </div>
-
-        <div className="flex justify-center mt-6">
-          <Button
-            onClick={handleSurpriseMe}
-            variant="outline"
-            size="lg"
-            disabled={isLoading}
-            className="rounded-full border-2 border-purple-400 hover:bg-gradient-to-r hover:from-indigo-400 hover:to-purple-600 hover:text-white hover:border-transparent transition-all duration-300 hover:scale-105 font-bold"
-            data-testid="button-surprise-me"
-          >
-            <Sparkles className="w-5 h-5 mr-2" />
-            🎡 Surprise Me!
-          </Button>
+          <TravelForm 
+            onSubmit={handleFormSubmit} 
+            isLoading={isLoading}
+            onCurrencyChange={setPreferredCurrency}
+          />
         </div>
 
         {isLoading && (
@@ -200,7 +186,7 @@ export default function Home() {
                   key={index}
                   destination={destination}
                   index={index}
-                  currency={currentCurrency}
+                  currency={preferredCurrency}
                 />
               ))}
             </div>
