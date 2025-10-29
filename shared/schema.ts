@@ -5,6 +5,9 @@ export const travelPreferencesSchema = z.object({
   duration: z.number().min(1).max(365),
   month: z.string(),
   mood: z.enum(["Relaxing", "Adventurous", "Cultural", "Romantic"]),
+  userLocation: z.string().optional(),
+  currency: z.enum(["INR", "USD", "EUR", "GBP"]).default("INR"),
+  country: z.string().optional(),
 });
 
 export type TravelPreferences = z.infer<typeof travelPreferencesSchema>;

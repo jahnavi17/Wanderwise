@@ -1,4 +1,4 @@
-import { MapPin, DollarSign, Calendar, Activity, Share2 } from "lucide-react";
+import { MapPin, Calendar, Activity, Share2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 
@@ -16,10 +16,19 @@ export interface Destination {
 interface DestinationCardProps {
   destination: Destination;
   index: number;
+  currency?: string;
 }
 
-export default function DestinationCard({ destination, index }: DestinationCardProps) {
+const currencySymbols: Record<string, string> = {
+  INR: "₹",
+  USD: "$",
+  EUR: "€",
+  GBP: "£",
+};
+
+export default function DestinationCard({ destination, index, currency = "USD" }: DestinationCardProps) {
   const { toast } = useToast();
+  const currencySymbol = currencySymbols[currency] || "$";
 
   const handleShare = () => {
     const shareText = `Check out ${destination.name}, ${destination.country}! ${destination.summary}`;
@@ -108,7 +117,7 @@ export default function DestinationCard({ destination, index }: DestinationCardP
           <div className="space-y-1">
             <div className="text-xs text-muted-foreground font-medium">Estimated Budget</div>
             <div className="flex items-center text-2xl font-bold text-primary">
-              <DollarSign className="w-5 h-5" />
+              <span className="mr-1">{currencySymbol}</span>
               <span data-testid={`text-cost-${index}`}>{destination.estimatedCost.toLocaleString()}</span>
             </div>
           </div>

@@ -1,0 +1,96 @@
+🌍 1. User Source Location Input
+
+Add an input field labeled “Your Location” at the top of the app (above the chat or hero section).
+
+Placeholder: “Where are you traveling from?”
+
+It should be optional, but if entered, the AI will receive this as part of the prompt — e.g.
+
+“Suggest destinations within 5 hours of flight from [User Location].”
+
+Store this location in local state so it persists during the session.
+
+Use a location pin icon (📍) beside the input.
+
+Style: glassmorphic or rounded card input consistent with the rest of the design.
+
+💰 2. Budget Input with Default INR
+
+Add a budget selector near the main input area:
+
+A number input or slider labeled “Budget” (range ₹10,000 – ₹5,00,000).
+
+Default currency: INR (₹).
+
+Add a small dropdown next to it for currency selection with these options:
+
+INR (₹)
+
+USD ($)
+
+EUR (€)
+
+GBP (£)
+
+When the currency changes, update the label dynamically (e.g., “Budget: $2000”).
+
+Ensure the selected currency is passed to the AI prompt context.
+Example:
+
+“I have a budget of 1,00,000 INR. Suggest destinations under this budget.”
+
+Maintain light, colorful styling — slider or numeric input should match theme colors (sky blue or coral orange).
+
+🗺️ 3. Country Filter (Optional Input)
+
+Below or beside the main chat input, add another optional field labeled:
+
+“Limit destinations to this country (optional)”
+
+Placeholder: “e.g., Italy, Japan, India”
+
+If a user enters a country, the AI prompt should include:
+
+“Show only destinations within [Country].”
+
+Add a small globe icon 🌐 beside the field.
+
+Keep the design compact — use a grid layout to neatly align “Your Location,” “Budget,” and “Country” fields.
+
+💡 4. Integration Logic
+
+Update the main API call or prompt construction logic so it dynamically includes these details (only if filled):
+
+const prompt = `
+Suggest travel destinations for a user with:
+- Starting point: ${userLocation || "Not specified"}
+- Budget: ${budget} ${currency}
+- Preferred country: ${country || "Any"}
+`;
+
+
+Send this combined prompt to the OpenAI API as part of the recommendation flow.
+
+Ensure empty fields don’t break the UI or the request.
+
+🎨 5. UI Design Notes
+
+Keep all inputs inside a glassmorphism-styled card or container with rounded corners and shadow.
+
+Use small travel-related icons for each input.
+
+Add responsive layout:
+
+On desktop: show all 3 fields in one row.
+
+On mobile: stack them vertically with soft spacing.
+
+Animate field focus with a subtle glow (matching the theme color).
+
+🎯 Goal
+
+These new inputs should make the AI recommendations more personalized and context-aware.
+
+Ensure they integrate smoothly into the existing app flow without breaking the chat or design layout.
+
+Keep performance optimized and API calls minimal.

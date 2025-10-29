@@ -23,6 +23,7 @@ export default function Home() {
   const [destinations, setDestinations] = useState<Destination[] | null>(null);
   const [lastPreferences, setLastPreferences] = useState<TravelPreferences | null>(null);
   const [currentMood, setCurrentMood] = useState<MoodTheme>('relax');
+  const [currentCurrency, setCurrentCurrency] = useState<string>("USD");
   const { toast } = useToast();
 
   const generateRecommendations = async (preferences: TravelPreferences) => {
@@ -48,6 +49,7 @@ export default function Home() {
       const data = await response.json();
       setDestinations(data.destinations);
       setLastPreferences(preferences);
+      setCurrentCurrency(preferences.currency || "USD");
     } catch (error: any) {
       console.error("Error fetching recommendations:", error);
       toast({
@@ -84,6 +86,7 @@ export default function Home() {
       mood: ["Relaxing", "Adventurous", "Cultural", "Romantic"][
         Math.floor(Math.random() * 4)
       ] as any,
+      currency: "USD",
     };
 
     generateRecommendations(randomPreferences);
@@ -97,9 +100,45 @@ export default function Home() {
       return;
     }
 
-    // Scroll to form
-    const formElement = document.getElementById('travel-form');
-    formElement?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    // Create preferences based on filter type
+    const filterPreferences: Partial<TravelPreferences> = {
+      currency: lastPreferences?.currency || currentCurrency || "INR",
+    };
+
+    switch (filter) {
+      case 'beaches':
+        filterPreferences.mood = "Relaxing";
+        filterPreferences.duration = 7;
+        filterPreferences.budget = 2500;
+        break;
+      case 'mountains':
+        filterPreferences.mood = "Adventurous";
+        filterPreferences.duration = 5;
+        filterPreferences.budget = 2000;
+        break;
+      case 'city':
+        filterPreferences.mood = "Cultural";
+        filterPreferences.duration = 4;
+        filterPreferences.budget = 2500;
+        break;
+      case 'budget':
+        filterPreferences.mood = "Relaxing";
+        filterPreferences.duration = 5;
+        filterPreferences.budget = 1000;
+        break;
+      case 'romantic':
+        filterPreferences.mood = "Romantic";
+        filterPreferences.duration = 7;
+        filterPreferences.budget = 3000;
+        break;
+    }
+
+    // Get current month
+    const currentMonth = new Date().toLocaleString('default', { month: 'long' });
+    filterPreferences.month = currentMonth;
+
+    // Generate recommendations with the filter preferences
+    generateRecommendations(filterPreferences as TravelPreferences);
   };
 
   const handleMoodChange = (mood: MoodTheme) => {
@@ -161,6 +200,7 @@ export default function Home() {
                   key={index}
                   destination={destination}
                   index={index}
+                  currency={currentCurrency}
                 />
               ))}
             </div>
